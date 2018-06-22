@@ -1,18 +1,18 @@
 # tidewallet-connect
 A javascript library to develop Dapp in TideWallet
 
-- [accounts](#accounts)
-- [getBalance](#getBalance)
-- [getTokenBalance](#getTokenBalance)
+- [* accounts](#accounts)
+- [* getBalance](#getBalance)
+- [* getTokenBalance](#getTokenBalance)
 - [getTransactionCount](#getTransactionCount)
 - [getCode](#getCode)
 - [getTransactionByHash](#getTransactionByHash)
-- [getTransactionReceipt](#getTransactionReceipt)
+- [* getTransactionReceipt](#getTransactionReceipt)
 - [gasPrice](#gasPrice)
 - [estimateGas](#estimateGas)
 - [sign](#sign)
-- [call](#call)
-- [sendTransaction](#sendTransaction)
+- [* call](#call)
+- [* sendTransaction](#sendTransaction)
 
 ## TideWallet IPC
 ### accounts
