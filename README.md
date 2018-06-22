@@ -140,6 +140,7 @@ A javascript library to develop Dapp in TideWallet
     "transactionIndex": "0x6f"
   }
 }
+```
 
 ### gasPrice
 - tidewallet://connect/gasPrice/${request_id}
