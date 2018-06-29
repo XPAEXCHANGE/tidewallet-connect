@@ -48,7 +48,7 @@ class TWC {
     return result;
   }
   static randomID() {
-    const ID = zeroFill(
+    const ID = this.zeroFill(
     	(parseInt(Math.random() * 16 ** 8)).toString(16),
     	8,
     	false
@@ -86,6 +86,7 @@ class TWC {
   static TidewalletCommand({ cmd, address, tx, from, to, value, data }) {
   	const tmpA = document.createElement('a');
   	const rid = this.randomID();
+  	console.log(rid);
   	tmpA.target = '_blank'
     switch(cmd) {
       case 'accounts':
@@ -108,8 +109,12 @@ class TWC {
       case 'sendTransaction':
       break;
     }
+
     return new Promise((resolve, reject) => {
-      
+      this.once({ id: rid, callback: (data) => {
+      	resolve(data.result);
+      }});
+      tmpA.click();
     });
   }
   static accounts() {
