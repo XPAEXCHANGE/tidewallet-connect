@@ -67,7 +67,7 @@ class TWC {
   static TidewalletCommand({ cmd, address, tx, from, to, token, value, data }) {
   	const tmpA = document.createElement('a');
   	const rid = this.randomID();
-  	tmpA.target = '_blank'
+  	//tmpA.target = '_blank'
     switch(cmd) {
       case 'accounts':
         tmpA.href = `tidewallet://connect/accounts/${rid}`;
