@@ -189,7 +189,7 @@ class TWC {
     return this.regist({ rid });
   }
   static getTransactionLink({ from, to, value, data }) {
-    const rid = randomID();
+    const rid = this.randomID();
     return `tidewallet://connect/sendTransaction/${rid}?from=${from}&to=${to}&value=${value}&data=${data}`;
   }
 }
