@@ -132,7 +132,7 @@ class TWC {
           let l = Math.floor(r.slice(2).length / 64);
           let a = [];
           for (let i = 0; i < l; i++) {
-            a.push("0x"+r.slice(2+i*64, 66+i*64));
+            a.push("0x"+r.slice(2+i*64, 66+i*64));
           }
           return a;
         });
