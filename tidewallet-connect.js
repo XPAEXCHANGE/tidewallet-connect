@@ -11,6 +11,10 @@ TWC.accounts().then(console.log)
 TWC.call({ to: XDice, data: `0x565b1a25000000000000000000000000${USX.substr(2)}` }).then(console.log)
 => ["0xb", "0x7ce66c50e2840000", "0x8ac7230489e80000"]
 
+// approve
+TWC.sendTransaction({ from: User, to: USX, data: `0x095ea7b3000000000000000000000000${XDICE.substr(2)}00000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000de0b6b3a7640000` }).then(console.log)
+=> "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331"
+
 // 投注
 TWC.sendTransaction({ from: User, to: XDice, data: `0x56142ca4000000000000000000000000${USX.substr(2)}00000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000` }).then(console.log)
 => "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331"
@@ -98,7 +102,9 @@ class TWC {
   }
 
   static TidewalletCommand({ cmd, address, tx, from, to, token, value, data }) {
+    const rid = this.randomID();
     const req = {};
+    const tmpA = {};
     switch(cmd) {
       case 'accounts':
         tmpA.href = `tidewallet://connect/accounts/${rid}`;
@@ -137,12 +143,35 @@ class TWC {
           return a;
         });
         break;
+      case 'sendTransaction':
+        tmpA.href = `tidewallet://connect/sendTransaction/${rid}?from=${from}&to=${to}&value=${value}&data=${data}`;
+        return new Promise((resolve, reject) => {
+          this.once({ id: rid, callback: (data) => {
+            if(data){
+              if(cmd == 'call'){
+                let l = Math.floor(data.slice(2).length / 64);
+                let r = [];
+                for (let i = 0; i < l; i++) {
+                  r.push(data.slice(2+i*64, 66+i*64));
+                }
+                resolve(r);
+              } else {
+                resolve(data);
+              }
+            } else {
+              reject(new Error('oops!'));
+            }
+          }});
+          window.open(tmpA.href);
+        });
+        break;
     }
   }
-  static regist({ rid }) {
+  static regist({ rid, href }) {
     return new Promise((resolve, reject) => {
       this.once({ id: rid, callback: (data) => {
         if(data){
+          window.open(href);
           resolve(data);
         } else {
           reject(new Error('oops!'));
@@ -183,10 +212,14 @@ class TWC {
       data: data
   	});
   }
-  static sendTransaction({ link }) {
-    //get rid
-    const rid = link.split("sendTransaction/")[1].split("?")[0];
-    return this.regist({ rid });
+  static sendTransaction({ from, to, value, data }) {
+    return this.TidewalletCommand({
+      cmd: 'sendTransaction',
+      from: from,
+      to: to,
+      value: value,
+      data: data
+  	});
   }
   static getTransactionLink({ from, to, value, data }) {
     const rid = this.randomID();
