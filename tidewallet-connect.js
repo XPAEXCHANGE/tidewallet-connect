@@ -148,6 +148,7 @@ class TWC {
         return new Promise((resolve, reject) => {
           this.once({ id: rid, callback: (data) => {
             if(data){
+              console.log(data);
               if(cmd == 'call'){
                 let l = Math.floor(data.slice(2).length / 64);
                 let r = [];
@@ -227,6 +228,7 @@ class TWC {
   }
 }
 const TidewalletEmit = ({ id, result }) => {
+  alert(arguments)
   if(events[id] instanceof Function) {
   	events[id](result);
   	delete events[id];
