@@ -17,7 +17,7 @@ A javascript library to develop Dapp in TideWallet
 ## TideWallet IPC
 ### accounts
 - tidewallet://connect/accounts/${request_id}
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
@@ -28,7 +28,7 @@ A javascript library to develop Dapp in TideWallet
 
 ### getBalance
 - tidewallet://connect/getBalance/${request_id}?address=0x7a96a850eddd0f635b9d7ec867b13a380069bedc
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
@@ -39,7 +39,7 @@ A javascript library to develop Dapp in TideWallet
 
 ### getTokenBalance
 - tidewallet://connect/getTokenBalance/${request_id}?address=0x7a96a850eddd0f635b9d7ec867b13a380069bedc&token=0xa325aaa53de6ae1ad7df6671162beea340ac08c6
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
@@ -50,7 +50,7 @@ A javascript library to develop Dapp in TideWallet
 
 ### getTransactionCount
 - tidewallet://connect/getTransactionCount/${request_id}?address=0x353852c791150c1a78851a6cb28e246b30c8c6d9
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
@@ -61,7 +61,7 @@ A javascript library to develop Dapp in TideWallet
 
 ### getCode
 - tidewallet://connect/getCode/${request_id}?address=0x13b4b9c415213bb2d0a5d692b6f2e787b927c211
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
@@ -72,7 +72,7 @@ A javascript library to develop Dapp in TideWallet
 
 ### getTransactionByHash
 - tidewallet://connect/getTransactionByHash/${request_id}?tx=0x764191f33228fb917eff0c6cc6d34838c8bf6004d38e3f2ede7b172d5fe3ceff
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
@@ -104,7 +104,7 @@ A javascript library to develop Dapp in TideWallet
 
 ### getTransactionReceipt
 - tidewallet://connect/getTransactionReceipt/${request_id}?tx=0x764191f33228fb917eff0c6cc6d34838c8bf6004d38e3f2ede7b172d5fe3ceff
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
@@ -144,7 +144,7 @@ A javascript library to develop Dapp in TideWallet
 
 ### gasPrice
 - tidewallet://connect/gasPrice/${request_id}
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
@@ -155,7 +155,7 @@ A javascript library to develop Dapp in TideWallet
 
 ### estimateGas
 - tidewallet://connect/estimateGas/${request_id}?from=0x353852c791150c1a78851a6cb28e246b30c8c6d9&to=0x6a9d4e243bff85b1405f23c2a90bdc3d8a31190f&value=0x2386f26fc10000&data=0x4b7c2b110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016345785d8a0000000000000000000000000000ca78a735d4e045ea057ebceed0a94e02eadfc096000000000000000000000000000000000000000000000a968163f0a57b400000
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
@@ -166,7 +166,7 @@ A javascript library to develop Dapp in TideWallet
 
 ### sign
 - tidewallet://connect/estimateGas/${request_id}?address=0x89871c844ffcbeaf7bc4f161d081defaa35bed67&data=0x22e62f15
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
@@ -177,7 +177,7 @@ A javascript library to develop Dapp in TideWallet
 
 ### call
 - tidewallet://connect/call/${request_id}?from=0x353852c791150c1a78851a6cb28e246b30c8c6d9&to=0x6a9d4e243bff85b1405f23c2a90bdc3d8a31190f&value=0x2386f26fc10000&data=0x4b7c2b110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016345785d8a0000000000000000000000000000ca78a735d4e045ea057ebceed0a94e02eadfc096000000000000000000000000000000000000000000000a968163f0a57b400000
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
@@ -188,7 +188,7 @@ A javascript library to develop Dapp in TideWallet
 
 ### sendTransaction
 - tidewallet://connect/sendTransaction/${request_id}?from=0x353852c791150c1a78851a6cb28e246b30c8c6d9&to=0x6a9d4e243bff85b1405f23c2a90bdc3d8a31190f&value=0x2386f26fc10000&data=0x4b7c2b110000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000016345785d8a0000000000000000000000000000ca78a735d4e045ea057ebceed0a94e02eadfc096000000000000000000000000000000000000000000000a968163f0a57b400000
-- javascript:TideWalletEmit(${result})
+- javascript:TidewalletEmit(${result})
 ```json
 {
   "id": ${request_id},
