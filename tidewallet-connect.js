@@ -11,6 +11,10 @@ TWC.accounts().then(console.log)
 TWC.call({ to: XDice, data: `0x565b1a25000000000000000000000000${USX.substr(2)}` }).then(console.log)
 => ["0xb", "0x7ce66c50e2840000", "0x8ac7230489e80000"]
 
+// allowance
+TWC.call({ to: USX, data: `0xdd62ed3e000000000000000000000000${XDice.substr(2)}000000000000000000000000${User.substr(2)}` }).then(console.log)
+=> ["0x0000000000000000000000000000000000000000000000000000000000000001"]
+
 // approve
 TWC.sendTransaction({ from: User, to: USX, data: `0x095ea7b3000000000000000000000000${XDICE.substr(2)}0000000000000000000000000000000000000000000000000de0b6b3a7640000` }).then(console.log)
 => "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331"
@@ -106,16 +110,7 @@ class TWC {
     const req = {};
     const tmpA = {};
     switch(cmd) {
-      case 'accounts':
-        tmpA.href = `tidewallet://connect/accounts/${rid}`;
-        break;
-      case 'getBalance':
-        tmpA.href = `tidewallet://connect/getBalance/${rid}?address=${address}`;
-        break;
-      case 'getTokenBalance':
-        tmpA.href = `tidewallet://connect/getTokenBalance/${rid}?address=${address}&token=${token}`;
-        break;
-      case 'getTransactionReceipt':
+      case 'getTransactionReceipt': //return json
         //tmpA.href = `tidewallet://connect/getTransactionReceipt/${rid}?tx=${tx}`;
         req.data = {
           jsonrpc: '2.0',
@@ -125,7 +120,7 @@ class TWC {
         };
         return this.ecRequest(req.data).then(v => { return JSON.parse(v).result});
         break;
-      case 'call':
+      case 'call': //return array
         //tmpA.href = `tidewallet://connect/call/${rid}?from=${from}?to=${to}?value=${value}?data=${data}`;  
         req.data = {
           jsonrpc: '2.0',
@@ -143,29 +138,57 @@ class TWC {
           return a;
         });
         break;
+      case 'accounts': //return array
+        tmpA.href = `tidewallet://connect/accounts/${rid}`;
+        break;
+      case 'getBalance': //return array
+        tmpA.href = `tidewallet://connect/getBalance/${rid}?address=${address}`;
+        break;
+      case 'getTokenBalance':
+        tmpA.href = `tidewallet://connect/getTokenBalance/${rid}?address=${address}&token=${token}`;
+        break;
+      case 'getTransactionCount':
+        tmpA.href = `tidewallet://connect/getTransactionCount/${rid}?address=${address}`;
+        break;
+      case 'getCode':
+        tmpA.href = `tidewallet://connect/getCode/${rid}?address=${address}`;
+        break;
+      case 'getTransactionByHash':
+        tmpA.href = `tidewallet://connect/getTransactionByHash/${rid}?tx=${address}`;
+        break;
+      case 'gasPrice':
+        tmpA.href = `tidewallet://connect/gasPrice/${rid}`;
+        break;
+      case 'estimateGas':
+        tmpA.href = `tidewallet://connect/estimateGas/${rid}?from=${from}&to=${to}&value=${value}&data=${data}`;
+        break;
+      case 'sign':
+        tmpA.href = `tidewallet://connect/sign/${rid}?address=${address}&data=${data}`;
+        break;
       case 'sendTransaction':
         tmpA.href = `tidewallet://connect/sendTransaction/${rid}?from=${from}&to=${to}&value=${value}&data=${data}`;
-        return new Promise((resolve, reject) => {
-          this.once({ id: rid, callback: (data) => {
-            if(data){
-              if(cmd == 'call'){
-                let l = Math.floor(data.slice(2).length / 64);
-                let r = [];
-                for (let i = 0; i < l; i++) {
-                  r.push(data.slice(2+i*64, 66+i*64));
-                }
-                resolve(r);
-              } else {
-                resolve(data);
-              }
-            } else {
-              reject(new Error('oops!'));
-            }
-          }});
-          window.open(tmpA.href);
-        });
         break;
     }
+
+    return new Promise((resolve, reject) => {
+      this.once({ id: rid, callback: (data) => {
+        if(data){
+          if(cmd == 'call'){
+            let l = Math.floor(data.slice(2).length / 64);
+            let r = [];
+            for (let i = 0; i < l; i++) {
+              r.push(data.slice(2+i*64, 66+i*64));
+            }
+            resolve(r);
+          } else {
+            resolve(data);
+          }
+        } else {
+          reject(new Error('oops!'));
+        }
+      }});
+      window.open(tmpA.href);
+    });
   }
   static regist({ rid, href }) {
     return new Promise((resolve, reject) => {
@@ -195,6 +218,45 @@ class TWC {
       cmd: 'getTokenBalance',
       address: address,
       token: token
+  	});
+  }
+  static getTransactionCount({ address }) {
+    return this.TidewalletCommand({
+      cmd: 'getTransactionCount',
+      address: address
+  	});
+  }
+  static getCode({ address }) {
+    return this.TidewalletCommand({
+      cmd: 'getCode',
+      address: address
+  	});
+  }
+  static getTransactionByHash({ address }) {
+    return this.TidewalletCommand({
+      cmd: 'getTransactionByHash',
+      address: address
+  	});
+  }
+  static gasPrice() {
+    return this.TidewalletCommand({
+      cmd: 'gasPrice'
+  	});
+  }
+  static estimateGas() {
+    return this.TidewalletCommand({
+      cmd: 'estimateGas',
+      from: from,
+      to: to,
+      value: value,
+      data: data
+  	});
+  }
+  static sign({ address, data}) {
+    return this.TidewalletCommand({
+      cmd: 'sign',
+      address: address,
+      data: data
   	});
   }
   static getTransactionReceipt({ tx }) {

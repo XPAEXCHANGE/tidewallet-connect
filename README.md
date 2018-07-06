@@ -165,7 +165,7 @@ A javascript library to develop Dapp in TideWallet
 ```
 
 ### sign
-- tidewallet://connect/estimateGas/${request_id}?address=0x89871c844ffcbeaf7bc4f161d081defaa35bed67&data=0x22e62f15
+- tidewallet://connect/sign/${request_id}?address=0x89871c844ffcbeaf7bc4f161d081defaa35bed67&data=0x22e62f15
 - javascript:TidewalletEmit(${result})
 ```json
 {
