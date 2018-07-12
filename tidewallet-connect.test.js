@@ -1,7 +1,7 @@
 /*
 const User = "0x89871c844ffcbeaf7bc4f161d081defaa35bed67";
 const USX = "0xb8e5c9d9e8ea9cb92cd883ecb0d4f718f031551d";
-const XDice = "0x014449dd1b335284d3e63c3a94c7954e95f8ef43";
+const XDice = "0x1c1530c92f622a5a6e23d51792e285575f20007f";
 
 // 取得當前用戶帳號
 TWC.accounts().then(console.log)
@@ -26,6 +26,9 @@ TWC.call({ to: XDice, data: `0xe62c06af000000000000000000000000${USX.substr(2)}0
 // 領第 5 期獎
 TWC.sendTransaction({ from: User, to: XDice, data: `0xaad3ec96000000000000000000000000${USX.substr(2)}0000000000000000000000000000000000000000000000000000000000000005` }).then(console.log)
 => "0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331"
+
+//取得用戶 balanceOf 
+TWC.call({ to: USX, data: `0x70a08231000000000000000000000000${User.substr(2)}` }).then(console.log)
 */
 
 (function (module, exports) {
