@@ -181,7 +181,7 @@ class TWC {
     return new Promise((resolve, reject) => {
       this.once({ id: rid, callback: (data) => {
         //test
-        var css = 'p { position: absolute;top: 0px; }',
+        var css = 'p { position: absolute;top: 50px; } span {position: absolute;top: 0px;}',
         head = document.head || document.getElementsByTagName('head')[0],
         style = document.createElement('style');
         style.type = 'text/css';
@@ -320,7 +320,7 @@ class TWC {
       params: [tx],
       id: 67
     };
-    var para = document.createElement("P");                       // Create a <p> element
+    var para = document.createElement("span");                       // Create a <p> element
         var t = document.createTextNode(JSON.stringify(tx));      // Create a text node
         para.appendChild(t);  
         document.getElementsByTagName("BODY")[0].appendChild(para);
@@ -329,18 +329,21 @@ class TWC {
       ()=> new Promise((resolve, reject) =>{
           this.ecRequest(data).then(v => { 
             console.log("0000000");
-            let r = JSON.parse(v).result;
-    
-            var para = document.createElement("P");                       // Create a <p> element
-            var t = document.createTextNode(JSON.stringify(r));      // Create a text node
-            para.appendChild(t);  
-            document.getElementsByTagName("BODY")[0].appendChild(para);
-            //if(Math.floor(Math.random()*5+1) == 2){
-            if(r && r.blockNumber && (r.status == 1 || r.logs.length > 0)) {
-              console.log("1111111");
+            
+            if(Math.floor(Math.random()*5+1) == 2){
+            //if(r && r.blockNumber && (r.status == 1 || r.logs.length > 0)) {
+              var para = document.createElement("P");                       // Create a <p> element
+              var t = document.createTextNode(JSON.stringify("successful"));      // Create a text node
+              para.appendChild(t);  
+              document.getElementsByTagName("BODY")[0].appendChild(para);
+
               return resolve(JSON.parse(v).result);
             } else {
-              console.log("2222222");
+              var para = document.createElement("P");                       // Create a <p> element
+              var t = document.createTextNode(JSON.stringify("reject")+Math.floor(Math.random()*1000+1));      // Create a text node
+              para.appendChild(t);  
+              document.getElementsByTagName("BODY")[0].appendChild(para);
+
               return reject('check timeout');
             }
           })
