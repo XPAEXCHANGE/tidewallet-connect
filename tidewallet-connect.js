@@ -201,7 +201,7 @@ class TWC {
             }
             resolve(r);
           } else if(cmd == 'sendTransaction') {
-            this.checkTransactionReceipt({ tx: data }).then(v => {
+            this.checkTransactionReceipt({ tx: data[0] }).then(v => {
               resolve(v);
             }, e => {
               reject(e);
@@ -332,6 +332,7 @@ class TWC {
             
             //if(Math.floor(Math.random()*5+1) == 2){
             let r = JSON.parse(v).result;
+            console.log(r);
             if(r && r.blockNumber) {
               var para = document.createElement("P");                       // Create a <p> element
               var t = document.createTextNode(JSON.stringify("successful"));      // Create a text node
