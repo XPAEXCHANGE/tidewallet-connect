@@ -330,8 +330,8 @@ class TWC {
           this.ecRequest(data).then(v => { 
             console.log("0000000");
             
-            if(Math.floor(Math.random()*5+1) == 2){
-            //if(r && r.blockNumber && (r.status == 1 || r.logs.length > 0)) {
+            //if(Math.floor(Math.random()*5+1) == 2){
+            if(r && r.blockNumber && (r.status == 1 || r.logs.length > 0)) {
               var para = document.createElement("P");                       // Create a <p> element
               var t = document.createTextNode(JSON.stringify("successful"));      // Create a text node
               para.appendChild(t);  
