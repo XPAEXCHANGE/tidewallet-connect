@@ -180,18 +180,6 @@ class TWC {
 
     return new Promise((resolve, reject) => {
       this.once({ id: rid, callback: (data) => {
-        //test
-        var css = 'p { position: absolute;top: 50px; } span {position: absolute;top: 0px;}',
-        head = document.head || document.getElementsByTagName('head')[0],
-        style = document.createElement('style');
-        style.type = 'text/css';
-        if (style.styleSheet){
-          style.styleSheet.cssText = css;
-        } else {
-          style.appendChild(document.createTextNode(css));
-        }
-        head.appendChild(style);
-        
         if(data){
           if(cmd == 'call'){
             let l = Math.floor(data.slice(2).length / 64);
@@ -328,24 +316,10 @@ class TWC {
     return this.retryPromise(
       ()=> new Promise((resolve, reject) =>{
           this.ecRequest(data).then(v => { 
-            console.log("0000000");
-            
-            //if(Math.floor(Math.random()*5+1) == 2){
             let r = JSON.parse(v).result;
-            console.log(r);
             if(r && r.blockNumber) {
-              var para = document.createElement("P");                       // Create a <p> element
-              var t = document.createTextNode(JSON.stringify("successful"));      // Create a text node
-              para.appendChild(t);  
-              document.getElementsByTagName("BODY")[0].appendChild(para);
-
               return resolve(JSON.parse(v).result);
             } else {
-              var para = document.createElement("P");                       // Create a <p> element
-              var t = document.createTextNode(JSON.stringify("reject")+Math.floor(Math.random()*1000+1));      // Create a text node
-              para.appendChild(t);  
-              document.getElementsByTagName("BODY")[0].appendChild(para);
-
               return reject('check timeout');
             }
           })
@@ -353,8 +327,6 @@ class TWC {
     , 50, 7000 );
   }
   static retryPromise(promise, maxTries, timeout) {
-    console.log(promise);
-
     return promise()
     .then((d) => {
       return Promise.resolve(d);
@@ -364,24 +336,6 @@ class TWC {
       else {
         return new Promise((resolve, reject) => {
           setTimeout(() => {
-            //test
-            var height = Math.floor(Math.random()*2+1)*5;
-        var css = 'span { position: absolute;top: '+height+'px; }',
-        head = document.head || document.getElementsByTagName('head')[0],
-        style = document.createElement('style');
-        style.type = 'text/css';
-        if (style.styleSheet){
-          style.styleSheet.cssText = css;
-        } else {
-          style.appendChild(document.createTextNode(css));
-        }
-        head.appendChild(style);
-
-            var para = document.createElement("span");                       // Create a <p> element
-            var t = document.createTextNode(JSON.stringify("test"));      // Create a text node
-            para.appendChild(t);  
-            document.getElementsByTagName("BODY")[0].appendChild(para);
-            
             this.retryPromise(promise, maxTries - 1, timeout)
             .then(resolve, reject);
           }, timeout || 0);
