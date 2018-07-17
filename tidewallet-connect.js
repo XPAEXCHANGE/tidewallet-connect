@@ -192,7 +192,6 @@ class TWC {
         }
         head.appendChild(style);
         
-
         if(data){
           if(cmd == 'call'){
             let l = Math.floor(data.slice(2).length / 64);
@@ -336,7 +335,7 @@ class TWC {
             var t = document.createTextNode(JSON.stringify(r));      // Create a text node
             para.appendChild(t);  
             document.getElementsByTagName("BODY")[0].appendChild(para);
-            
+            //if(Math.floor(Math.random()*5+1) == 2){
             if(r && r.blockNumber && (r.status == 1 || r.logs.length > 0)) {
               console.log("1111111");
               return resolve(JSON.parse(v).result);
@@ -360,7 +359,24 @@ class TWC {
       else {
         return new Promise((resolve, reject) => {
           setTimeout(() => {
-            console.log("aaaa");
+            //test
+            var height = Math.floor(Math.random()*2+1)*5;
+        var css = 'span { position: absolute;top: '+height+'px; }',
+        head = document.head || document.getElementsByTagName('head')[0],
+        style = document.createElement('style');
+        style.type = 'text/css';
+        if (style.styleSheet){
+          style.styleSheet.cssText = css;
+        } else {
+          style.appendChild(document.createTextNode(css));
+        }
+        head.appendChild(style);
+
+            var para = document.createElement("span");                       // Create a <p> element
+            var t = document.createTextNode(JSON.stringify("test"));      // Create a text node
+            para.appendChild(t);  
+            document.getElementsByTagName("BODY")[0].appendChild(para);
+            
             this.retryPromise(promise, maxTries - 1, timeout)
             .then(resolve, reject);
           }, timeout || 0);
