@@ -327,24 +327,31 @@ class TWC {
         document.getElementsByTagName("BODY")[0].appendChild(para);
 
     return this.retryPromise(
-      this.ecRequest(data).then(v => { 
-        let r = JSON.parse(v).result;
-
-        var para = document.createElement("P");                       // Create a <p> element
-        var t = document.createTextNode(JSON.stringify(r));      // Create a text node
-        para.appendChild(t);  
-        document.getElementsByTagName("BODY")[0].appendChild(para);
-
-        if(r && r.blockNumber && (r.status == 1 || r.logs.length > 0)) {
-          return Promise.resolve(JSON.parse(v).result);
-        } else {
-          return Promise.reject('check timeout');
-        }
-      })
+      ()=> new Promise((resolve, reject) =>{
+          this.ecRequest(data).then(v => { 
+            console.log("0000000");
+            let r = JSON.parse(v).result;
+    
+            var para = document.createElement("P");                       // Create a <p> element
+            var t = document.createTextNode(JSON.stringify(r));      // Create a text node
+            para.appendChild(t);  
+            document.getElementsByTagName("BODY")[0].appendChild(para);
+            
+            if(r && r.blockNumber && (r.status == 1 || r.logs.length > 0)) {
+              console.log("1111111");
+              return resolve(JSON.parse(v).result);
+            } else {
+              console.log("2222222");
+              return reject('check timeout');
+            }
+          })
+        })
     , 50, 7000 );
   }
   static retryPromise(promise, maxTries, timeout) {
-    return promise
+    console.log(promise);
+
+    return promise()
     .then((d) => {
       return Promise.resolve(d);
     },
@@ -353,6 +360,7 @@ class TWC {
       else {
         return new Promise((resolve, reject) => {
           setTimeout(() => {
+            console.log("aaaa");
             this.retryPromise(promise, maxTries - 1, timeout)
             .then(resolve, reject);
           }, timeout || 0);
