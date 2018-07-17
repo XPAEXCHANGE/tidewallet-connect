@@ -180,6 +180,19 @@ class TWC {
 
     return new Promise((resolve, reject) => {
       this.once({ id: rid, callback: (data) => {
+        //test
+        var css = 'p { position: absolute;top: 0px; }',
+        head = document.head || document.getElementsByTagName('head')[0],
+        style = document.createElement('style');
+        style.type = 'text/css';
+        if (style.styleSheet){
+          style.styleSheet.cssText = css;
+        } else {
+          style.appendChild(document.createTextNode(css));
+        }
+        head.appendChild(style);
+        
+
         if(data){
           if(cmd == 'call'){
             let l = Math.floor(data.slice(2).length / 64);
@@ -308,10 +321,20 @@ class TWC {
       params: [tx],
       id: 67
     };
-    
+    var para = document.createElement("P");                       // Create a <p> element
+        var t = document.createTextNode(JSON.stringify(tx));      // Create a text node
+        para.appendChild(t);  
+        document.getElementsByTagName("BODY")[0].appendChild(para);
+
     return this.retryPromise(
       this.ecRequest(data).then(v => { 
         let r = JSON.parse(v).result;
+
+        var para = document.createElement("P");                       // Create a <p> element
+        var t = document.createTextNode(JSON.stringify(r));      // Create a text node
+        para.appendChild(t);  
+        document.getElementsByTagName("BODY")[0].appendChild(para);
+
         if(r && r.blockNumber && (r.status == 1 || r.logs.length > 0)) {
           return Promise.resolve(JSON.parse(v).result);
         } else {
