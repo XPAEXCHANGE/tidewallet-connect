@@ -308,11 +308,7 @@ class TWC {
       params: [tx],
       id: 67
     };
-    var para = document.createElement("span");                       // Create a <p> element
-        var t = document.createTextNode(JSON.stringify(tx));      // Create a text node
-        para.appendChild(t);  
-        document.getElementsByTagName("BODY")[0].appendChild(para);
-
+    
     return this.retryPromise(
       ()=> new Promise((resolve, reject) =>{
           this.ecRequest(data).then(v => { 
