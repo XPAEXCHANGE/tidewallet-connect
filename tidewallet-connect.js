@@ -84,7 +84,8 @@ class TWC {
 
   static ecRequest(data, Url, hash)
   {
-      const serverUrl = "https://betarpc.xpa.exchange";
+      //const serverUrl = "https://betarpc.xpa.exchange";
+      const serverUrl = "https://rpc.xpa.exchange";
       return new Promise((resolve, reject) =>
       {
           const xhr = new XMLHttpRequest();
