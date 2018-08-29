@@ -117,7 +117,10 @@ class TWC {
   static TidewalletCommand({ cmd, address, tx, from, to, token, value, data }) {
     const rid = this.randomID();
     const req = {};
-    const tmpA = {};
+    //const tmpA = {};
+    const tmpA = document.createElement('a');
+    document.getElementsByTagName("BODY")[0].appendChild(tmpA);
+    //const body = document.getElementsByTagName("BODY")[0];
     switch(cmd) {
       case 'getTransactionReceipt': //return json
         //tmpA.href = `tidewallet://connect/getTransactionReceipt/${rid}?tx=${tx}`;
@@ -202,7 +205,8 @@ class TWC {
           reject(new Error('oops!'));
         }
       }});
-      window.open(tmpA.href);
+      tmpA.click();
+      //window.open(tmpA.href);
     });
   }
   static regist({ rid, href }) {
