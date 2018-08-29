@@ -117,9 +117,17 @@ class TWC {
   static TidewalletCommand({ cmd, address, tx, from, to, token, value, data }) {
     const rid = this.randomID();
     const req = {};
+    const u = navigator.userAgent;
+    const isAndroid = u.indexOf('Android') > -1 || u.indexOf('Adr') > -1; //android终端
+    const isiOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/); //ios终端
+    if(isiOS){
+      const tmpA = document.createElement('a');
+      document.getElementsByTagName("BODY")[0].appendChild(tmpA);
+    } else {
+      const tmpA = {};
+    }
     //const tmpA = {};
-    const tmpA = document.createElement('a');
-    document.getElementsByTagName("BODY")[0].appendChild(tmpA);
+    
     //const body = document.getElementsByTagName("BODY")[0];
     switch(cmd) {
       case 'getTransactionReceipt': //return json
@@ -205,7 +213,11 @@ class TWC {
           reject(new Error('oops!'));
         }
       }});
-      tmpA.click();
+      if(isiOS){
+        tmpA.click();
+      } else {
+        window.open(tmpA.href);
+      }
       //window.open(tmpA.href);
     });
   }
