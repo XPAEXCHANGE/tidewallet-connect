@@ -34,6 +34,31 @@ TWC.call({ to: USX, data: `0x70a08231000000000000000000000000${User.substr(2)}` 
 (function (module, exports) {
 'use strict';
 
+const ecalert = (title, content) => {
+  let container;
+  const items = document.getElementById('tidewallet-connect-debug');
+  const body = document.getElementsByTagName('body').item(0);
+  const msg = document.createElement('li');
+  const close = document.createElement('a');
+  close.onclick = () => { msg.remove(); }
+  close.append('x');
+  close.style = 'position: absolute; right: 0px; top: 0px; padding: 0px 5px; height: 100%; line-height: 100%; cursor: pointer; background: #abd; border-top-right-radius: 5px; border-bottom-right-radius: 5px;';
+  msg.style = 'display: block; width: 300px; padding: 10px; background: #cdf; border-radius: 5px; position: relative; color: #666; margin: 1px';
+  msg.append(title);
+  msg.append(document.createElement('br'));
+  msg.append(content);
+  msg.append(close);
+  if(!!items) {
+    container = items;
+  } else {
+    container = document.createElement('ul');
+    container.id = 'tidewallet-connect-debug';
+    container.style = 'position: fixed; top: 0px; margin: auto;';
+    body.append(container);
+  }
+  container.append(msg);
+};
+
 class TWC {
   static randomWait(result) {
     return new Promise((resolve, reject) => {
@@ -48,8 +73,9 @@ class TWC {
   	return Math.random() > 0.1;
   }
   static log(fn, args) {
-  	console.log(`--- ${fn} ---`);
-  	console.log(args);
+    if(this.debug) {
+  	  ecalert(`--- ${fn} ---`, args);
+    }
   }
   static accounts() {
   	this.log('accounts');
@@ -143,6 +169,7 @@ class TWC {
   	return this.randomWait('0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331');
   }
 }
+TWC.debug = false;
 
 if (typeof module === 'object') {
   module.exports = TWC;
