@@ -49,6 +49,44 @@ TWC.call({ to: USX, data: `0x70a08231000000000000000000000000${User.substr(2)}` 
 (function (module, exports) {
 'use strict';
 
+const ecalert = (title, content, rs) => {
+  let container;
+  let color;
+  const items = document.getElementById('tidewallet-connect-debug');
+  const body = document.getElementsByTagName('body').item(0);
+  const msg = document.createElement('li');
+  const close = document.createElement('a');
+  const header = document.createElement('div');
+  switch(rs) {
+    case 1:
+      color = ['#cfd', '#adb'];
+      break;
+    case 0:
+      color = ['#fcc', '#daa'];
+      break;
+    default:
+      color = ['#cdf', '#abd'];
+  }
+  header.append(title);
+  header.style = `text-decoration: underline; font-weight: bold`;
+  close.onclick = () => { msg.remove(); }
+  close.append('x');
+  close.style = `position: absolute; right: 0px; top: 0px; padding: 0px 5px; height: 100%; line-height: 100%; cursor: pointer; background: ${color[1]}; border-top-right-radius: 5px; border-bottom-right-radius: 5px;`;
+  msg.style = `display: block; width: 300px; padding: 10px; background: ${color[0]}; border-radius: 5px; position: relative; color: #666; margin: 1px`;
+  msg.append(header);
+  msg.append(content);
+  msg.append(close);
+  if(!!items) {
+    container = items;
+  } else {
+    container = document.createElement('ul');
+    container.id = 'tidewallet-connect-debug';
+    container.style = 'position: fixed; left: 50%; margin-left: -200px; top: 0px; margin-top: 0px; font-size: 0.8em;';
+    body.append(container);
+  }
+  container.append(msg);
+};
+
 const events = {};
 class TWC {
   static once({ id, callback }) {
@@ -81,7 +119,11 @@ class TWC {
       });
   	}
   }
-
+  static log(fn, args, rs) {
+    if(this.debug) {
+      ecalert(`${fn}`, args, rs);
+    }
+  }
   static ecRequest(data, Url, hash)
   {
       //const serverUrl = "https://betarpc.xpa.exchange";
@@ -183,6 +225,7 @@ class TWC {
         tmpA.href = `tidewallet://connect/sendTransaction/${rid}?from=${from}&to=${to}&value=${value}&data=${data}`;
         break;
     }
+    this.log(cmd, tmpA.href);
 
     return new Promise((resolve, reject) => {
       this.once({ id: rid, callback: (data) => {
@@ -196,14 +239,18 @@ class TWC {
             resolve(r);
           } else if(cmd == 'sendTransaction') {
             this.checkTransactionReceipt({ tx: data[0] }).then(v => {
+              this.log(tmpA.href, v, 1);
               resolve(v);
             }, e => {
+              this.log(tmpA.href, e, 0);
               reject(e);
             })
           } else {
+            this.log(tmpA.href, data, 1);
             resolve(data);
           }
         } else {
+          this.log(tmpA.href, 'oops! unknown error!', 0);
           reject(new Error('oops!'));
         }
       }});
@@ -377,6 +424,8 @@ class TWC {
   //   }, Promise.resolve()).catch(console.log);
   // }
 }
+TWC.debug = false;
+
 const TidewalletEmit = ({ id, result }) => {
   if(events[id] instanceof Function) {
   	events[id](result);
