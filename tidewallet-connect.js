@@ -37,6 +37,9 @@ TWC.sendTransaction({ from: User, to: XDice, data: `0xaad3ec96000000000000000000
 
 //取得用戶 balanceOf 
 TWC.call({ to: USX, data: `0x70a08231000000000000000000000000${User.substr(2)}` }).then(console.log)
+
+//取得用戶 balanceOf 
+TWC.checkTransactionReceipt({ tx: '0xe670ec64341771606e55d6b4ca35a1a6b75ee3d5145a99d05921026d1527331' }).then(console.log)
 */
 
 // error sendtraction
@@ -237,15 +240,18 @@ class TWC {
               r.push(data.slice(2+i*64, 66+i*64));
             }
             resolve(r);
-          } else if(cmd == 'sendTransaction') {
-            this.checkTransactionReceipt({ tx: data[0] }).then(v => {
-              this.log(tmpA.href, v, 1);
-              resolve(v);
-            }, e => {
-              this.log(tmpA.href, e, 0);
-              reject(e);
-            })
-          } else {
+          } 
+            //else if(cmd == 'sendTransaction') {
+
+            // this.checkTransactionReceipt({ tx: data[0] }).then(v => {
+            //   this.log(tmpA.href, v, 1);
+            //   resolve(v);
+            // }, e => {
+            //   this.log(tmpA.href, e, 0);
+            //   reject(e);
+            // })
+          //} 
+          else {
             this.log(tmpA.href, data, 1);
             resolve(data);
           }
