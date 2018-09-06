@@ -437,7 +437,7 @@ class TWC {
   //   }, Promise.resolve()).catch(console.log);
   // }
 }
-TWC.debug = true;
+TWC.debug = false;
 
 const TidewalletEmit = ({ id, result }) => {
   if(events[id] instanceof Function) {
