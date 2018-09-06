@@ -167,6 +167,9 @@ class TWC {
     document.getElementsByTagName("BODY")[0].appendChild(tmpA);
     if(navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1){
       tmpA.target = "_blank";
+      this.log("this is android device","this is android device");
+    } else {
+      this.log("this is not android device","this is not android device");
     }
 
     //const tmpA = {};
@@ -434,7 +437,7 @@ class TWC {
   //   }, Promise.resolve()).catch(console.log);
   // }
 }
-TWC.debug = false;
+TWC.debug = true;
 
 const TidewalletEmit = ({ id, result }) => {
   if(events[id] instanceof Function) {
