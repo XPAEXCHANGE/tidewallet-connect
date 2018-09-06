@@ -152,7 +152,7 @@ class TWC {
               });
           };
   
-          const hashcash = echashcash(serverUrl);
+          const hashcash = echashcash('/');
           xhr.setRequestHeader('Content-Type', 'application/json');
           xhr.setRequestHeader('hashcash', hash || hashcash);
           xhr.send(JSON.stringify(data));
@@ -165,6 +165,10 @@ class TWC {
 
     const tmpA = document.createElement('a');
     document.getElementsByTagName("BODY")[0].appendChild(tmpA);
+    if(navigator.userAgent.indexOf('Android') > -1 || navigator.userAgent.indexOf('Adr') > -1){
+      tmpA.target = "_blank";
+    }
+
     //const tmpA = {};
     
     //const body = document.getElementsByTagName("BODY")[0];
