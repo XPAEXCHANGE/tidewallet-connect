@@ -159,7 +159,7 @@ class TWC {
       });
   }
 
-  static TidewalletCommand({ cmd, address, tx, from, to, token, value, data }) {
+  static TidewalletCommand({ cmd, address, tx, from, to, token, value, data, waitReceipt }) {
     const rid = this.randomID();
     const req = {};
 
@@ -248,16 +248,15 @@ class TWC {
             }
             resolve(r);
           } 
-            //else if(cmd == 'sendTransaction') {
-
-            // this.checkTransactionReceipt({ tx: data[0] }).then(v => {
-            //   this.log(tmpA.href, v, 1);
-            //   resolve(v);
-            // }, e => {
-            //   this.log(tmpA.href, e, 0);
-            //   reject(e);
-            // })
-          //} 
+          else if(cmd == 'sendTransaction' && waitReceipt) {
+            this.checkTransactionReceipt({ tx: data[0] }).then(v => {
+              this.log(tmpA.href, v, 1);
+              resolve(v);
+            }, e => {
+              this.log(tmpA.href, e, 0);
+              reject(e);
+            })
+          } 
           else {
             this.log(tmpA.href, data, 1);
             resolve(data);
@@ -356,13 +355,14 @@ class TWC {
       data: data
   	});
   }
-  static sendTransaction({ from, to, value, data }) {
+  static sendTransaction({ from, to, value, data, waitReceipt }) {
     return this.TidewalletCommand({
       cmd: 'sendTransaction',
       from: from,
       to: to,
       value: value,
-      data: data
+      data: data,
+      waitReceipt: waitReceipt
   	});
   }
   static getTransactionLink({ from, to, value, data }) {
